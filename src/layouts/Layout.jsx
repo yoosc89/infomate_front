@@ -12,6 +12,9 @@ import DragAndDropWrapper from "../components/approval/ele-component/treeview/Dr
 import { decodeJwt } from '../util/tokenUtils';
 import { callLogoutAPI } from '../apis/MemberAPICalls';
 import { useDispatch } from 'react-redux';
+import {SocketProvider} from "../context/SocketContext";
+import ConnectSocket from "../components/common/Socket";
+import Socket from "../components/common/Socket";
 
 export default function Layout() {
 
@@ -43,17 +46,19 @@ export default function Layout() {
 
     return (
         <>
-            <ModalContextProvider>
-                <MenuContextProvider>
-                    <CurrentTitleProvider>
-                        <DragAndDropWrapper>
-                            <CalendarFilterProvider>
-                                <LayoutContent/>
-                            </CalendarFilterProvider>
-                        </DragAndDropWrapper>
-                    </CurrentTitleProvider>
-                </MenuContextProvider>
-            </ModalContextProvider>
+            <SocketProvider>
+                <ModalContextProvider>
+                    <MenuContextProvider>
+                        <CurrentTitleProvider>
+                            <DragAndDropWrapper>
+                                <CalendarFilterProvider>
+                                    <LayoutContent/>
+                                </CalendarFilterProvider>
+                            </DragAndDropWrapper>
+                        </CurrentTitleProvider>
+                    </MenuContextProvider>
+                </ModalContextProvider>
+            </SocketProvider>
         </>
     );
 
@@ -72,6 +77,7 @@ function LayoutContent() {
                 </main>
             </div>
             <Modal modalId="documentKind" title="결재양식 선택" />
+            <Socket />
         </div>
     );
 }

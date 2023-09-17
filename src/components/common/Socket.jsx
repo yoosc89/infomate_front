@@ -1,12 +1,16 @@
 import {useContext, useEffect, useRef, useState} from "react";
 import {onDisconnect, SOCKET} from "../../apis/APIConfig";
-import {SocketContext} from "../../context/SocketContext";
 import * as StompJs from "@stomp/stompjs";
+import CalendarAlert from "../calendar/CalendarAlert";
+import {toast} from "react-hot-toast";
+
+
 
 const Socket = () => {
 
     const client = useRef();
-    const {data, setData} = useContext(SocketContext);
+
+    // const {calendarAlert, setCalendarAlert} = useContext(CalendarFilterContext);
     const memberCode = JSON.parse(localStorage.getItem('authToken')).memberCode;
     const accessToken = localStorage.getItem('accessToken')
 
@@ -34,12 +38,25 @@ const Socket = () => {
         client.current.subscribe(
             `/sub/chat/${memberCode}`,
             message => {
-                setData(JSON.parse(message.body));
+                // setData(JSON.parse(message.body));
+            }
+        )
+
+        client.current.subscribe(
+            `/sub/calendar/alert/${memberCode}`,
+            message => {
+                const data =JSON.parse(message.body)
+                toast.custom(t=> (
+                    <CalendarAlert
+                        message={data.scheduleTitle}
+                        createDate={data.startDate}
+                        onClick={()=>toast.remove(t.id)}
+                    />
+                ),{duration: 30*1000});
             }
         )
     }
 
-    console.log(data)
 }
 
 export default Socket;

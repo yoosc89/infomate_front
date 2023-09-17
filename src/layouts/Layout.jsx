@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Header from "../components/common/Header";
 import {Outlet, useNavigate} from "react-router-dom";
 import NavStyle from '../components/common/Nav.module.css';
@@ -12,9 +12,10 @@ import DragAndDropWrapper from "../components/approval/ele-component/treeview/Dr
 import { decodeJwt } from '../util/tokenUtils';
 import { callLogoutAPI } from '../apis/MemberAPICalls';
 import { useDispatch } from 'react-redux';
-import {SocketProvider} from "../context/SocketContext";
-import ConnectSocket from "../components/common/Socket";
+import { SocketProvider} from "../context/SocketContext";
 import Socket from "../components/common/Socket";
+import {Toaster} from "react-hot-toast";
+
 
 export default function Layout() {
 
@@ -78,6 +79,7 @@ function LayoutContent() {
             </div>
             <Modal modalId="documentKind" title="결재양식 선택" />
             <Socket />
+            <Toaster position="top-right" reverseOrder={true} />
         </div>
     );
 }

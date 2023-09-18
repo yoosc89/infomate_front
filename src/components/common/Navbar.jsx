@@ -1,13 +1,11 @@
 import * as React from 'react';
+import {useContext, useEffect, useState} from 'react';
 import NavStyle from './Nav.module.css';
-import {useContext, useEffect, useState} from "react";
 import {CurrentTitleContext} from "../../context/CurrentTitleContext";
 import {Link, NavLink, useNavigate} from "react-router-dom";
 import {MenuContext} from "../../context/MenuContext";
-import { callLoginAPI, callLogoutAPI } from '../../apis/MemberAPICalls';
-import { useDispatch, useSelector } from 'react-redux';
-import { decodeJwt } from '../../util/tokenUtils';
-
+import {callLogoutAPI} from '../../apis/MemberAPICalls';
+import {useDispatch} from 'react-redux';
 
 
 function Navbar() {

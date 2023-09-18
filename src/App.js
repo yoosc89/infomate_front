@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import Layout from "./layouts/Layout";
 import Mail from "./pages/mail/Mail";
 import AddressBook from "./pages/addressBook/AddressBook";
@@ -33,18 +33,14 @@ import BrdDept from "./pages/board/BrdDept";
 import BrdAdmin from "./pages/board/BrdAdmin";
 import Anony from "./pages/board/Anony";
 import NewPost from "./pages/board/NewPost";
-import MailContactModal from './components/approval/ele-component/contact/MailContactModal';
 import AddressBookLike from './pages/addressBook/AddressBookLike';
 import ViewMail from './pages/mail/ViewMail';
 import Posting from './pages/board/Posting';
-import UpdateMember from './pages/manage/UpdateMember';
 import DocumentDetail from "./components/approval/ele-component/document/detail/DocumentDetail";
 import PostView from './pages/board/PostView';
 import UpdateDept from './pages/manage/admin/UpdateDept';
 import Department from './pages/manage/Department';
-import UpdateList from './pages/manage/admin/UpdateList';
 import DeptItems from './pages/manage/admin/DeptItems';
-import PostUpdate from './pages/board/PostUpdate';
 import LoginForm from "./pages/member/login/LoginForm";
 import Main from './pages/home/Main';
 import Register from './pages/member/login/Register';
@@ -54,7 +50,7 @@ import Items from './pages/manage/admin/Items';
 import MyInfo from './pages/member/MyInfo';
 import DeptTreeView from './pages/manage/DeptTreeView';
 import SimpleInfo from './pages/manage/SimpleInfo';
-
+import CalendarAlert from "./components/calendar/CalendarAlert";
 
 
 function App() {
@@ -127,7 +123,7 @@ function App() {
               <Route index element={<Calendar/>}/>
               <Route path="reminder" element={<ReminderList />} />  
               <Route path="regist" element={<ScheduleDetailCreate/>} />
-                <Route path="management" element={<CalendarManegeLayout/>}>
+              <Route path="management" element={<CalendarManegeLayout/>}>
                 <Route index element={<MyCalendar />}/>
                 <Route path="myPage" element={<MyCalendar />}/> 
                 <Route path="favorite" element={<FavoriteCalendarLayout />}>

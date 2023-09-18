@@ -3,15 +3,19 @@ import {onDisconnect, SOCKET} from "../../apis/APIConfig";
 import * as StompJs from "@stomp/stompjs";
 import CalendarAlert from "../calendar/CalendarAlert";
 import {toast} from "react-hot-toast";
+import {useNavigate} from "react-router-dom";
 
 
 
 const Socket = () => {
 
     const client = useRef();
+    const navigate = useNavigate();
 
     // const {calendarAlert, setCalendarAlert} = useContext(CalendarFilterContext);
-    const memberCode = JSON.parse(localStorage.getItem('authToken')).memberCode;
+    const authToken = JSON.parse(localStorage.getItem('authToken'));
+    const memberCode = authToken.memberCode;
+    const profile = authToken.profile;
     const accessToken = localStorage.getItem('accessToken')
 
 
@@ -48,15 +52,22 @@ const Socket = () => {
                 const data =JSON.parse(message.body)
                 toast.custom(t=> (
                     <CalendarAlert
+                        profile={profile}
                         message={data.scheduleTitle}
-                        createDate={data.startDate}
-                        onClick={()=>toast.remove(t.id)}
+                        startDate={data.startDate}
+                        endDate={data.endDate}
+                        onClick={e=>calednarAlertOnclickHandler(t, data)}
                     />
                 ),{duration: 30*1000});
             }
         )
     }
 
+
+    const calednarAlertOnclickHandler = (e, data) => {
+        toast.remove(e.id)
+        navigate(`/calendar/regist?scheduleId=${data.scheduleId}&isread=true`)
+    }
 }
 
 export default Socket;

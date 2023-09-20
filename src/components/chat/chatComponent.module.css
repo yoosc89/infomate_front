@@ -1,0 +1,61 @@
+.container {
+    display: grid;
+    grid-template-columns: 60px auto;
+    width: 350px;
+    height: 500px;
+    border: 1px solid red;
+}
+.menubar {
+    background-color: var(--color-middle);
+    text-align: center;
+}
+
+.menuItem {
+
+    padding: 15px 0;
+}
+
+.menuItem > button {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.notiCount {
+    position: absolute;
+    z-index: 100;
+    right: 7px;
+    top: -13px;
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+.notiCount > div {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+    background-color: red;
+    color: white;
+    vertical-align: middle ;
+}
+
+.notiCount > div > span {
+    text-align: center;
+    vertical-align: middle ;
+}
+
+.menuItem > button> span {
+    color: white;
+    font-size: 1.4rem;
+    margin: 0;
+    padding: 0;
+}
+.contents {
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+}

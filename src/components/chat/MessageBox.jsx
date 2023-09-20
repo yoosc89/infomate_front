@@ -1,0 +1,6 @@
+const MessageBox = () => {
+    return (
+        <>
+        </>
+    )
+}

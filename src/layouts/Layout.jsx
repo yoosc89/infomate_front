@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { SocketProvider} from "../context/SocketContext";
 import Socket from "../components/common/Socket";
 import {Toaster} from "react-hot-toast";
+import ChatModal from "../pages/chat/ChatModal";
 
 
 export default function Layout() {
@@ -60,6 +61,7 @@ export default function Layout() {
                     </MenuContextProvider>
                 </ModalContextProvider>
             </SocketProvider>
+
         </>
     );
 
@@ -80,6 +82,7 @@ function LayoutContent() {
             <Modal modalId="documentKind" title="결재양식 선택" />
             <Socket />
             <Toaster position="top-right" reverseOrder={true} />
+            <ChatModal />
         </div>
     );
 }

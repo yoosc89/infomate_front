@@ -4,10 +4,10 @@ import ChatRoomList from "./contents/ChatRoomList";
 import {useState} from "react";
 import ChatGroup from "./contents/ChatGroup";
 import ChatSettings from "./contents/ChatSettings";
-const ChatComponent = () => {
+const ChatComponent = ({view, onClick}) => {
 
     const [toggle, setToggle] = useState('');
-    const [isView,setIsView] = useState(false);
+    // const [isView,setIsView] = useState(true);
 
     const menuList = [
         // {menu: 'menu'},
@@ -25,16 +25,11 @@ const ChatComponent = () => {
             case 'settings': return <ChatSettings />;
             default: return <ChatRoomList />;
         }
-
-    }
-
-    const viewToggleHandler = () =>{
-        setIsView(!isView);
     }
 
     return (
         <>
-            <div className={[styles.container, isView && styles.chatNotActive].join(' ')}>
+            <div className={[styles.container, view? styles.isView : styles.noneView].join(' ')}>
                 <div className={styles.menubar}>
                     <div className={styles.menuBtn}>
                         {
@@ -51,7 +46,7 @@ const ChatComponent = () => {
                     <div className={styles.menuClose}>
                         <ChatMenuItem
                             text={'close_fullscreen'}
-                            onClick={viewToggleHandler}
+                            onClick={onClick}
                         />
                     </div>
                 </div>

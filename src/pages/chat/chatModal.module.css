@@ -1,0 +1,55 @@
+.container {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    z-index: 900;
+}
+
+.toggle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    background-color: var(--color-light);
+    color: white;
+    border-radius: 100px;
+    text-align: center;
+    vertical-align: middle;
+    box-shadow: 0 0 5px 5px rgba(200,200,200, 0.3);
+}
+
+.toggle > div {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.7rem;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    left: 2px;
+    top: 2px;
+}
+
+.display{
+    animation: fade-in 0.2s ease-in;
+    opacity: 1;
+}
+
+.noneDisplay{
+    animation: fade-out 0.2s ease-out;
+    opacity: 0;
+    pointer-events: none;
+}
+
+@keyframes fade-in {
+    0% {opacity: 0}
+    100% {opacity: 1}
+}
+
+@keyframes fade-out {
+    0% {opacity: 1}
+    100% {opacity: 0}
+}

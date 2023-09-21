@@ -3,18 +3,27 @@ import meterialIcon from '../../common/meterialIcon.module.css';
 import {useState} from "react";
 
 const ChatSettings = () => {
+
+    const localSetting = JSON.parse(localStorage.getItem("chatOption"))
+
     const setting = [
-        {subject: '채팅관리', options: [
-            {text: '채팅방관리1-text1',chk: false},
-            {text: '채팅방관리2-text1',chk: false},
-            {text: '채팅방관리3-text1',chk: false},
-            {text: '채팅방관리4-text1',chk: false}]
+        {subject: '채팅', key: 'chat', options: [
+            {text: '알림끄기', key: 'toast',chk: false},
+            {text: '간단알림(내용표시X)', key: 'summary',chk: false},
+            {text: '부서 채팅방 입력 잠금', key: 'lock',chk: false},
+            ]
         },
-        {subject: '그룹관리', options: [
-                {text: '그룹관리1-text1',chk: false},
-                {text: '그룹관리2-text1',chk: false},
-                {text: '그룹관리3-text1',chk: false},
-                {text: '그룹관리4-text1',chk: false}]
+        {subject: '그룹', key: 'groups', options: [
+            {text: '내 부서만 표시', key: 'mydept', chk: false},
+            {text: '부서편집', key: 'edit', chk: false},
+            {text: '프로필사진표시', key: 'profile', chk: false},
+            ]
+        },
+        {subject: '세팅', key: 'settings', options: [
+            {text: '채팅창크기', key: 'size', chk: false},
+            {text: '메뉴순서편집', key: 'menuOrder', chk: false},
+            {text: '로그인시 채팅창 바로 띄우기', key: 'modal', chk: false},
+            ]
         },
     ]
 

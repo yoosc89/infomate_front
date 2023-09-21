@@ -50,7 +50,6 @@ import Items from './pages/manage/admin/Items';
 import MyInfo from './pages/member/MyInfo';
 import DeptTreeView from './pages/manage/DeptTreeView';
 import SimpleInfo from './pages/manage/SimpleInfo';
-import CalendarAlert from "./components/calendar/CalendarAlert";
 import ChatComponent from "./components/chat/ChatComponent";
 
 

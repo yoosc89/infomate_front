@@ -18,6 +18,7 @@ import registMemberReducer from "./MemberRegisterModule";
 import memberMailReducer from "./MemberMailModule";
 import mailTrashReducer from "./MailTrashModule";
 import workReducer from "./WorkModule";
+import chatReducer from "./ChatMoudule";
 
 const rootReducer = combineReducers({
     favCalendarReducer,
@@ -36,7 +37,8 @@ const rootReducer = combineReducers({
     homeMainReducer,
     memberMailReducer,
     mailTrashReducer,
-    workReducer
+    workReducer,
+    chatReducer
 });
 
 

@@ -2,9 +2,12 @@ import styles from './chatComponent.module.css';
 import meterialIcon from '../common/meterialIcon.module.css';
 import ChatRoomList from "./contents/ChatRoomList";
 import {useState} from "react";
+import ChatGroup from "./contents/ChatGroup";
+import ChatSettings from "./contents/ChatSettings";
 const ChatComponent = () => {
 
     const [toggle, setToggle] = useState('');
+    const [isView,setIsView] = useState(false);
 
     const menuList = [
         // {menu: 'menu'},
@@ -16,18 +19,22 @@ const ChatComponent = () => {
 
     const pageSwtich = (toggle) =>{
         switch (toggle) {
-            case 'group': return <ChatRoomList />;
+            case 'group': return <ChatGroup />;
             case 'forum': return <ChatRoomList />;
-            case 'caht': return <ChatRoomList />;
-            case 'settings': return <ChatRoomList />;
+            case 'chat': return <ChatRoomList />;
+            case 'settings': return <ChatSettings />;
             default: return <ChatRoomList />;
         }
 
     }
 
+    const viewToggleHandler = () =>{
+        setIsView(!isView);
+    }
+
     return (
         <>
-            <div className={styles.container}>
+            <div className={[styles.container, isView && styles.chatNotActive].join(' ')}>
                 <div className={styles.menubar}>
                     <div className={styles.menuBtn}>
                         {
@@ -44,15 +51,14 @@ const ChatComponent = () => {
                     <div className={styles.menuClose}>
                         <ChatMenuItem
                             text={'close_fullscreen'}
-                            onClick={()=> setToggle('close_fullscreen')}
+                            onClick={viewToggleHandler}
                         />
                     </div>
                 </div>
                 <div className={styles.contents}>
-                    <ChatRoomList />
+                    {pageSwtich(toggle)}
                 </div>
             </div>
-
         </>
     )
 }

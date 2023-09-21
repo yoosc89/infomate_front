@@ -141,7 +141,7 @@ function Navbar() {
                     </NavLink>
                 </li>
                 <li onClick={()=>toggleTitle("Chat")}>
-                    <NavLink to="" >
+                    <NavLink to="/chat" >
                         <span className={`material-symbols-outlined icon ${NavStyle.icon}`}>
                             mode_comment
                         </span>

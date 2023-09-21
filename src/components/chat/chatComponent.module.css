@@ -1,17 +1,24 @@
+.chatNotActive {
+    display: none !important;
+}
+
 .container {
     margin: 100px;
     display: grid;
     grid-template-columns: 60px auto;
     width: 350px;
     height: 500px;
-    /*border: 1px solid red;*/
     box-shadow: 0 0 10px 5px rgba(200, 200, 200, 0.2);
+    border-radius: 10px;
 }
+
 .menubar {
     background-color: var(--color-middle);
     text-align: center;
     display: grid;
-    grid-template-rows: auto 60px;
+    grid-template-rows: auto 55px;
+    padding: 5px 0;
+    border-radius: inherit;
 }
 
 .menuItem {
@@ -25,11 +32,13 @@
     margin: 0;
     padding: 0;
 }
+
 .menuBtn{
     height: 100%;
 }
+
 .menuClose {
-    height: 60px;
+    height: 55px;
 }
 
 .notiCount {
@@ -56,19 +65,16 @@
     vertical-align: middle ;
 }
 
-.menuItem > button> span {
+.menuItem > button > span {
     color: white;
     font-size: 1.4rem;
     margin: 0;
     padding: 0;
 }
+
 .contents {
     overflow-x: hidden;
     overflow-y: auto;
     margin: 0;
-    padding: 0;
-}
-.contents{
-    /*display: table-cell;*/
-    /*border-collapse: collapse;*/
+    padding: 10px;
 }

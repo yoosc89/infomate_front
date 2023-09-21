@@ -1,0 +1,52 @@
+.groupSubject{
+    display: grid;
+    width: 100%;
+    grid-template-columns: auto 20px;
+    color: white;
+    background-color: var(--color-middle);
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0 10px;
+    margin: 0;
+    height: 25px;
+
+}
+.groupSubject > div {
+    align-self: center;
+    vertical-align: middle;
+}
+
+.groupMember{
+    padding: 10px 0;
+}
+.memberNoneView {
+    display: none !important;
+}
+
+.memberContainer {
+    display: grid;
+    grid-template-columns: 50px auto;
+    width: 100%;
+    height: 45px;
+    transition: 0.3s;
+    font-size: 0.9rem;
+}
+.memberContainer:hover {
+    background-color: var(--color-light);
+    color: white;
+}
+
+.memberContainer > div {
+    align-self: center;
+}
+
+.memberContainer > div:last-child {
+    width: 100%;
+    text-align: left;
+}
+
+.memberProfile {
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+}

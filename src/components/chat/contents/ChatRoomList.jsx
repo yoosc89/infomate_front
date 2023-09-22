@@ -47,7 +47,7 @@ const ChatRoomItem = ({chatRoomCode, chatRoomName,
     }
 
     return (
-        <div className={styles.itemContainer}>
+        <button className={styles.itemContainer}>
             <div className={styles.itemSubject}>
                 <div>
                     <span className={styles.itemSubjectText}>{chatRoomName}</span>
@@ -62,7 +62,7 @@ const ChatRoomItem = ({chatRoomCode, chatRoomName,
             <div>
                 <span>{recentMSG}</span>
             </div>
-        </div>
+        </button>
     )
 }
 

@@ -23,6 +23,9 @@
     display: none !important;
 }
 
+.member {
+    position: sticky;
+}
 .memberContainer {
     display: grid;
     grid-template-columns: 50px auto;
@@ -49,4 +52,28 @@
     width: 30px;
     height: 30px;
     border-radius: 30px;
+}
+
+.groupMenuContainer{
+    position: relative;
+    width: 150px;
+    top: -20px;
+    left: 20px;
+    z-index: 1000;
+    /*height: 0;*/
+    box-shadow: 0 0 10px 5px rgba(200, 200, 200, 0.2);
+}
+
+.menu {
+    display: block;
+    width: 100%;
+    background-color: white;
+    transition: 0.4s;
+    font-size: 0.8rem;
+    padding: 5px;
+
+}
+.menu:hover {
+    background-color: var(--color-light);
+    color: white;
 }

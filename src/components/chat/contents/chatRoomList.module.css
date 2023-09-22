@@ -2,8 +2,9 @@
     display: grid;
     grid-template-rows: 30px 60px ;
     font-size: 0.8rem;
-    border: 1px solid red;
+    /*border: 1px solid red;*/
     border-collapse: collapse;
+    width: 100%;
 }
 
 /*.itemContainer > div {*/
@@ -15,6 +16,7 @@
     grid-template-columns: auto 100px;
     vertical-align: middle;
     align-self: center;
+    text-align: left;
 }
 
 .itemSubjectText{

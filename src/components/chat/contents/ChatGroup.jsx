@@ -1,15 +1,19 @@
 import {useDispatch, useSelector} from "react-redux";
 import {GET_PART_LIST} from "../../../modules/ScheduleMoudule";
-import {useEffect, useState} from "react";
+import {createContext, useContext, useEffect, useState} from "react";
 import {getParticipantList} from "../../../apis/DepartmentAPI";
 import {LoadingSpiner} from "../../common/other/LoadingSpiner";
 import meterialIcon from '../../common/meterialIcon.module.css';
 import styles from './chatGroup.module.css'
+import {registChatRooms} from "../../../apis/ChatAPICalls";
+
+const GroupMenuContext = createContext({});
 
 const ChatGroup = () => {
 
     const getMembers = useSelector(state => state.scheduleReducer[GET_PART_LIST])
     const dispatch = useDispatch();
+    const [groupToggle ,setGroupToggle] = useState({});
 
     useEffect(()=>{
         dispatch(getParticipantList());
@@ -20,16 +24,18 @@ const ChatGroup = () => {
 
     return (
         <div>
-            {
-                getMembers.data.map(dept =>
-                    <Groups
-                        index={dept.deptCode}
-                        deptCode={dept.deptCode}
-                        deptName={dept.deptName}
-                        members={dept.members}
-                    />
-                )
-            }
+            <GroupMenuContext.Provider value={{groupToggle, setGroupToggle}}>
+                {
+                    getMembers.data.map(dept =>
+                        <Groups
+                            index={dept.deptCode}
+                            deptCode={dept.deptCode}
+                            deptName={dept.deptName}
+                            members={dept.members}
+                        />
+                    )
+                }
+            </GroupMenuContext.Provider>
         </div>
     )
 }
@@ -70,14 +76,54 @@ const Groups = ({deptCode, deptName, members}) => {
 
 const Member = ({memberName, memberCode}) => {
 
+    const {groupToggle ,setGroupToggle} = useContext(GroupMenuContext)
+    const toggleChangeHandler = () => {
+        setGroupToggle({memberCode: memberCode, toggle: true })
+    }
+
     return (
-        <button className={styles.memberContainer}>
-            <div>
-                <img className={styles.memberProfile} src="/img/user.jpg" onError={(e)=> e.src='/img/user.jpg'}/>
-            </div>
-            <div>
-                {memberName}
-            </div>
-        </button>
+        <div className={styles.member}>
+            <button className={styles.memberContainer} onClick={toggleChangeHandler}>
+                <div>
+                    <img className={styles.memberProfile} src="/img/user.jpg" onError={(e)=> e.src='/img/user.jpg'}/>
+                </div>
+                <div>
+                    {memberName}
+                </div>
+            </button>
+            {
+                groupToggle.memberCode === memberCode
+                && groupToggle.toggle
+                && <ChatGroupMenu memberCode={memberCode} />
+            }
+        </div>
+    )
+}
+
+const ChatGroupMenu = ({memberCode}) => {
+
+    const dispatch = useDispatch();
+
+    const {groupToggle ,setGroupToggle} = useContext(GroupMenuContext)
+
+    const menuClose = () => {
+        setGroupToggle({});
+    }
+
+    const newChatRoom = () => {
+        dispatch(registChatRooms({memberCode: memberCode}))
+        menuClose();
+    }
+
+    const profileView = () => {
+        menuClose();
+    }
+    return (
+        <div className={styles.groupMenuContainer}>
+            <button className={styles.menu} onClick={newChatRoom}>새 채팅방 생성</button>
+            <button className={styles.menu} onClick={profileView}>프로필 보기</button>
+            <button className={styles.menu} onClick={menuClose}>닫기</button>
+        </div>
+
     )
 }

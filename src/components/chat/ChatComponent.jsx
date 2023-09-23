@@ -4,6 +4,7 @@ import ChatRoomList from "./contents/ChatRoomList";
 import {useState} from "react";
 import ChatGroup from "./contents/ChatGroup";
 import ChatSettings from "./contents/ChatSettings";
+import ChatRoom from "./ChatRoom";
 const ChatComponent = ({view, onClick}) => {
 
     const [toggle, setToggle] = useState('');
@@ -21,7 +22,7 @@ const ChatComponent = ({view, onClick}) => {
         switch (toggle) {
             case 'group': return <ChatGroup />;
             case 'forum': return <ChatRoomList />;
-            case 'chat': return <ChatRoomList />;
+            case 'chat': return <ChatRoom />;
             case 'settings': return <ChatSettings />;
             default: return <ChatRoomList />;
         }

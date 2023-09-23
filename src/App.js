@@ -51,6 +51,7 @@ import MyInfo from './pages/member/MyInfo';
 import DeptTreeView from './pages/manage/DeptTreeView';
 import SimpleInfo from './pages/manage/SimpleInfo';
 import ChatComponent from "./components/chat/ChatComponent";
+import ChatRoom from "./components/chat/ChatRoom";
 
 
 function App() {
@@ -117,7 +118,7 @@ function App() {
               </Route>
 
 
-            <Route path="chat" element={<ChatComponent />} />
+            <Route path="chat" element={<ChatRoom />} />
 
 
 

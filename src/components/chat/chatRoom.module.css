@@ -1,0 +1,95 @@
+.chatRoomContainer {
+    display: grid;
+    grid-auto-rows: 40px 1fr auto;
+    height: 100%;
+    width: 100%;
+}
+.chatRoomContainer > div {
+    /*border: 1px solid red;*/
+}
+
+
+.messageGrid {
+    display: grid;
+    margin: 20px 0;
+}
+
+.messageContainerCol2 {
+    padding: 0 10px;
+    grid-template-columns: 40px 1fr;
+}
+
+.messageContainer > div {
+    border: 1px blue solid;
+}
+
+
+
+.messageRight {
+    text-align: -webkit-right;
+}
+
+.messageLeft {
+    text-align: -webkit-left;
+}
+
+.message {
+    display: inline-block;
+    padding: 5px 10px;
+    /*border: 0.4px solid var(--color-light);*/
+    background-color: var(--color-middle);
+    color: white;
+    border-radius: 6px;
+    max-width: 70%;
+    font-size: 0.7rem;
+}
+
+.messageDate {
+    font-size: 0.7rem;
+    color: gray;
+    padding: 2px 5px;
+}
+
+.memberProfile {
+    width: 35px;
+    height: 35px;
+    border-radius: 35px;
+}
+
+.inputContainer {
+    position: relative;
+    /*text-align: center;*/
+    /*width: 95%;*/
+    /*margin: 10px;*/
+}
+
+.input {
+    width: 100%;
+    max-height: 120px;
+    border-radius: 15px 15px 15px 15px;
+    border: 0.4px solid var(--color-middle);
+    padding: 5px 50px 5px 15px;
+    font-size: 0.7rem;
+    resize: none;
+    overflow: hidden;
+}
+.input:focus{
+    outline-color: var(--color-middle)
+}
+
+.submitBtn {
+    position: absolute;
+    right: 5px;
+    bottom: 11px;
+    background-color: var(--color-middle);
+    color: white;
+    height: 20px;
+    width: 20px;
+    border-radius: 20px;
+
+}
+.submitBtn > span {
+    font-size: 1rem;
+    align-self: center;
+    text-align: center;
+}

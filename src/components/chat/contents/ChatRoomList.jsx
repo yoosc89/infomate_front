@@ -1,11 +1,12 @@
 import styles from './chatRoomList.module.css';
 import dayjs from "dayjs";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {LoadingSpiner} from "../../common/other/LoadingSpiner";
 import {getChatRoomList} from "../../../apis/ChatAPICalls";
 import {useDispatch, useSelector} from "react-redux";
 import {GET_CHATROOM_LIST} from "../../../modules/ChatMoudule";
 import {NotResultData} from "../../../pages/common/Error";
+import {ChatContext} from "../ChatComponent";
 
 const ChatRoomList = () =>{
     const chatList = useSelector(state => state.chatReducer[GET_CHATROOM_LIST]);
@@ -38,6 +39,8 @@ const ChatRoomList = () =>{
 const ChatRoomItem = ({chatRoomCode, chatRoomName,
                           recentMSG, createDate}) => {
 
+    const {curSate , setCurState} = useContext(ChatContext);
+
     const recentDate = (createDate) => {
         const minuteDiff = dayjs().diff(createDate, 'minute')
         const date = dayjs(createDate).format("YY년 MM월 DD일");
@@ -46,15 +49,19 @@ const ChatRoomItem = ({chatRoomCode, chatRoomName,
         return result;
     }
 
+    const onClickHandler = () => {
+        setCurState({mainMenu: 'chat', chatRoomCode: chatRoomCode, chatRoomName: chatRoomName});
+    }
+
+
     return (
-        <button className={styles.itemContainer}>
+        <button className={styles.itemContainer} onClick={onClickHandler}>
             <div className={styles.itemSubject}>
                 <div>
                     <span className={styles.itemSubjectText}>{chatRoomName}</span>
                 </div>
                 <div className={styles.date}>
                     <span>
-                        {/*{dayjs(createDate).format("YY-MM-DD HH:mm")}*/}
                         {recentDate(createDate)}
                     </span>
                 </div>

@@ -1,13 +1,37 @@
 .chatRoomContainer {
     display: grid;
-    grid-auto-rows: 40px 1fr auto;
+    grid-auto-rows: 20px 430px 20px;
     height: 100%;
     width: 100%;
 }
 .chatRoomContainer > div {
     /*border: 1px solid red;*/
 }
+.headerContainer {
+    position: relative;
+}
+.sticky {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
 
+.stickyBtn{
+    padding-left: 5px ;
+    color: var(--color-hard);
+    /*font-size: 1rem;*/
+}
+
+.headerText {
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.bodyContainer{
+    /*overflow-y: scroll;*/
+    overflow-y: scroll;
+    max-height: 100%;
+}
 
 .messageGrid {
     display: grid;
@@ -23,8 +47,6 @@
     border: 1px blue solid;
 }
 
-
-
 .messageRight {
     text-align: -webkit-right;
 }
@@ -36,12 +58,13 @@
 .message {
     display: inline-block;
     padding: 5px 10px;
-    /*border: 0.4px solid var(--color-light);*/
     background-color: var(--color-middle);
     color: white;
     border-radius: 6px;
-    max-width: 70%;
+    max-width: 170px;
     font-size: 0.7rem;
+    white-space: pre-wrap;
+    /*word-wrap: break-word;*/
 }
 
 .messageDate {
@@ -65,6 +88,7 @@
 
 .input {
     width: 100%;
+    min-height: 30px;
     max-height: 120px;
     border-radius: 15px 15px 15px 15px;
     border: 0.4px solid var(--color-middle);
@@ -79,8 +103,8 @@
 
 .submitBtn {
     position: absolute;
-    right: 5px;
-    bottom: 11px;
+    right: 6px;
+    bottom: 12px;
     background-color: var(--color-middle);
     color: white;
     height: 20px;

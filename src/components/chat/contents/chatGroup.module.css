@@ -7,8 +7,9 @@
     font-size: 0.9rem;
     font-weight: 500;
     padding: 0 10px;
-    margin: 0;
     height: 25px;
+    border-radius: 6px;
+    margin: 5px 0;
 
 }
 .groupSubject > div {

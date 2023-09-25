@@ -1,19 +1,22 @@
 import styles from './chatComponent.module.css';
 import meterialIcon from '../common/meterialIcon.module.css';
 import ChatRoomList from "./contents/ChatRoomList";
-import {useState} from "react";
+import {createContext, useState} from "react";
 import ChatGroup from "./contents/ChatGroup";
 import ChatSettings from "./contents/ChatSettings";
 import ChatRoom from "./ChatRoom";
+
+export const ChatContext = createContext({});
+
 const ChatComponent = ({view, onClick}) => {
 
-    const [toggle, setToggle] = useState('');
-    // const [isView,setIsView] = useState(true);
+    const [curState, setCurState] = useState({});
+
 
     const menuList = [
         // {menu: 'menu'},
         {menu: 'group'},
-        {menu: 'forum', count: 1},
+        {menu: 'list', count: 1},
         {menu: 'chat', count: 10},
         {menu: 'settings'},
     ]
@@ -21,39 +24,43 @@ const ChatComponent = ({view, onClick}) => {
     const pageSwtich = (toggle) =>{
         switch (toggle) {
             case 'group': return <ChatGroup />;
-            case 'forum': return <ChatRoomList />;
+            case 'list': return <ChatRoomList />;
             case 'chat': return <ChatRoom />;
             case 'settings': return <ChatSettings />;
             default: return <ChatRoomList />;
         }
     }
 
+
+
     return (
         <>
             <div className={[styles.container, view? styles.isView : styles.noneView].join(' ')}>
-                <div className={styles.menubar}>
-                    <div className={styles.menuBtn}>
-                        {
-                            menuList.map((item, index) =>
-                                <ChatMenuItem
-                                    index={index}
-                                    text={item.menu}
-                                    count={item?.count}
-                                    onClick={()=> setToggle(item.menu)}
-                                />
-                            )
-                        }
+                <ChatContext.Provider value={{curState, setCurState}}>
+                    <div className={styles.menubar}>
+                        <div className={styles.menuBtn}>
+                            {
+                                menuList.map((item, index) =>
+                                    <ChatMenuItem
+                                        index={index}
+                                        text={item.menu}
+                                        count={item?.count}
+                                        onClick={()=> setCurState({...curState, mainMenu: item.menu})}
+                                    />
+                                )
+                            }
+                        </div>
+                        <div className={styles.menuClose}>
+                            <ChatMenuItem
+                                text={'close_fullscreen'}
+                                onClick={onClick}
+                            />
+                        </div>
                     </div>
-                    <div className={styles.menuClose}>
-                        <ChatMenuItem
-                            text={'close_fullscreen'}
-                            onClick={onClick}
-                        />
+                    <div className={styles.contents}>
+                        {pageSwtich(curState.mainMenu)}
                     </div>
-                </div>
-                <div className={styles.contents}>
-                    {pageSwtich(toggle)}
-                </div>
+                </ChatContext.Provider>
             </div>
         </>
     )

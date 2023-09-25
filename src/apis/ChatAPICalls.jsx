@@ -1,7 +1,5 @@
-import {PROTOCOL, SERVER_IP, SERVER_PORT} from "./APIConfig";
+import {CHAT_SERVER, PROTOCOL, SERVER_IP, SERVER_PORT} from "./APIConfig";
 import axios from "axios";
-import {GET_SCHEDULE_COUNT} from "../modules/ScheduleMoudule";
-import {message} from "antd";
 import {GET_CHATROOM, GET_CHATROOM_LIST, GET_MESSAGE} from "../modules/ChatMoudule";
 
 export const getChatRoomList = () => {
@@ -47,17 +45,17 @@ export const registChatRooms = ({memberCode}) => {
 
 export const getChatRoomDetail = ({chatRoomCode}) => {
 
-    const requestURL = `${PROTOCOL}://${SERVER_IP}:${SERVER_PORT}/chat/room/${chatRoomCode}`;
+    const memberCode = JSON.parse(localStorage.getItem("authToken")).memberCode;
+    console.log(CHAT_SERVER)
+    const requestURL = `${CHAT_SERVER}/chat/${chatRoomCode}/${memberCode}`;
     return async (dispatch, getState) => {
-        const result = await axios.get(requestURL,{headers: {
-                "Accept": "*/*",
-                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
-            }})
-            .then(res => res.data)
+        const result = await axios.get(requestURL)
+            .then(res => res)
             .catch(err => err);
 
+
         if(result?.status === 200) {
-            dispatch({ type: GET_MESSAGE,  payload: result });
+            dispatch({ type: GET_MESSAGE,  payload: result.data });
         }
 
     };

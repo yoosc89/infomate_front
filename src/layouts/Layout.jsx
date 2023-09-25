@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import Header from "../components/common/Header";
 import {Outlet, useNavigate} from "react-router-dom";
 import NavStyle from '../components/common/Nav.module.css';
@@ -6,14 +6,13 @@ import MenuBtn from "../components/common/MenuBtn";
 import {CurrentTitleProvider} from "../context/CurrentTitleContext";
 import {MenuContextProvider} from "../context/MenuContext";
 import {ModalContextProvider} from "../context/ModalContext";
-import { CalendarFilterProvider } from '../context/CalendarContext';
+import {CalendarFilterProvider} from '../context/CalendarContext';
 import Modal from "../components/approval/ele-component/common/Modal";
 import DragAndDropWrapper from "../components/approval/ele-component/treeview/DragAndDropWrapper";
-import { decodeJwt } from '../util/tokenUtils';
-import { callLogoutAPI } from '../apis/MemberAPICalls';
-import { useDispatch } from 'react-redux';
-import { SocketProvider} from "../context/SocketContext";
-import Socket from "../components/common/Socket";
+import {decodeJwt} from '../util/tokenUtils';
+import {callLogoutAPI} from '../apis/MemberAPICalls';
+import {useDispatch} from 'react-redux';
+import {SocketProvider} from "../context/SocketContext";
 import {Toaster} from "react-hot-toast";
 import ChatModal from "../pages/chat/ChatModal";
 
@@ -80,7 +79,6 @@ function LayoutContent() {
                 </main>
             </div>
             <Modal modalId="documentKind" title="결재양식 선택" />
-            <Socket />
             <Toaster position="top-right" reverseOrder={true} />
             <ChatModal />
         </div>

@@ -1,25 +1,26 @@
 import styles from './chatRoom.module.css';
-import {useEffect, useRef} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {GET_MESSAGE} from "../../modules/ChatMoudule";
 import {LoadingSpiner} from "../common/other/LoadingSpiner";
 import {getChatRoomDetail} from "../../apis/ChatAPICalls";
 import meterialIcon from '../../components/common/meterialIcon.module.css';
 import dayjs from "dayjs";
+import {ChatContext} from "./ChatComponent";
+import {NotResultData} from "../../pages/common/Error";
+import Socket from "../common/Socket";
+import {SocketContext} from "../../context/SocketContext";
+
 
 const ChatRoom = () => {
 
-    const chatRoomCode = 1;
     const dispatch = useDispatch();
-    // const data = useSelector(state => state.chatReducer[GET_MESSAGE]);
-    const data = [
-        {message: 'message \n dfddf \n sdfsdfsdf \nsdfsfs', sender: '1', createDate: dayjs().format('HH:mm:ss')},
-        {message: 'message12313', sender: '2', createDate: dayjs().format('HH:mm:ss')},
-    ]
-    // load chatRoomCode
 
+    const {curState, setCurState} = useContext(ChatContext);
+
+    const data = useSelector(state => state.chatReducer[GET_MESSAGE]);
     useEffect(() => {
-        dispatch(getChatRoomDetail({chatRoomCode: chatRoomCode}));
+        dispatch(getChatRoomDetail({chatRoomCode: curState.chatRoomCode}));
 
         return () =>
             dispatch(dispatch => {
@@ -27,12 +28,13 @@ const ChatRoom = () => {
         })
     }, []);
 
+
     if(!data) return <LoadingSpiner />;
 
     return (
         <div className={styles.chatRoomContainer}>
             <div>
-                <Header />
+                <Header chatRoomName={curState?.chatRoomName} />
             </div>
             <div>
                 <Body data={data} />
@@ -46,19 +48,50 @@ const ChatRoom = () => {
 
 export default ChatRoom;
 
-const Header = () => {
-    return (
-        <div>
+const Header = ({chatRoomName}) => {
 
+    const {curState, setCurState} = useContext(ChatContext);
+
+    const onClickHandler = () => {
+        setCurState({mainMenu: 'list'});
+    }
+
+    return (
+        <div className={styles.headerContainer}>
+            <div className={styles.headerText}>
+                {chatRoomName}
+            </div>
+            <div className={styles.sticky}>
+                <button
+                    className={[meterialIcon.meterialIcon, styles.stickyBtn].join(' ')}
+                    onClick={onClickHandler}
+                >
+                    arrow_back_ios
+                </button>
+            </div>
         </div>
     )
 }
 
 const Body = ({data}) => {
+
+    const memberCode = JSON.parse(localStorage.getItem("authToken")).memberCode;
+
+    if(data.length === 0) return <NotResultData />
+    console.log(data)
+
     return (
-        <div>
-            <Message message={data[0].message} sender={data[0].message} createDate={data[0].createDate} isMe={false} />
-            <Message message={data[1].message} sender={data[1].message} createDate={data[1].createDate} isMe={true} />
+        <div className={styles.bodyContainer}>
+            {data.map(message => (
+                <Message
+                    message={message.message}
+                    sender={message.sender}
+                    createDate={dayjs(message.createDate).format('HH:mm:ss')}
+                    isMe={message.sender === memberCode}
+                />
+            ))}
+            {/*<Message message={data[0].message} sender={data[0].message} createDate={data[0].createDate} isMe={false} />*/}
+            {/*<Message message={data[1].message} sender={data[1].message} createDate={data[1].createDate} isMe={true} />*/}
         </div>
     )
 }
@@ -87,15 +120,55 @@ const Message = ({sender, message, createDate, isMe}) => {
 
 const Input = () => {
     const textArea = useRef();
+    const dispatch = useDispatch();
+    const getMessage = useSelector(state => state.chatReducer[GET_MESSAGE]);
 
-    const resizeHeightHandler = () => {
+    const {curState, setCurState} = useContext(ChatContext);
+    const [message, setMessage] = useState({});
+    const memberCode = JSON.parse(localStorage.getItem("authToken")).memberCode;
+
+    const client = useContext(SocketContext);
+    useEffect(() => {
+        setMessage({...message, sender: memberCode})
+    }, []);
+
+    const onChange = e => {
+        setMessage({...message, [e.target.name]: e.target.value});
         textArea.current.style.height = '30px';
         textArea.current.style.height = textArea.current.scrollHeight + 'px';
     }
+
+    const onSubmit = () => {
+        sendMessage({receiver: curState.chatRoomCode, message: message})
+    }
+
+    const sendMessage = ({receiver, message}) => {
+        message['chatRoomNo'] = receiver;
+        message['createDate'] = dayjs().format('YYYY-MM-DDTHH:mm:ss');
+
+        client.publish({
+            destination: `/pub/chat/${receiver}`,
+            body: JSON.stringify(message)
+        });
+
+        dispatch(dispatch => {
+            dispatch({type: GET_MESSAGE ,payload: [...getMessage, message] })
+        })
+
+        setMessage({...message, message: ''});
+
+    }
+
     return (
         <div className={styles.inputContainer}>
-            <textarea ref={textArea} className={styles.input} rows={1} onChange={resizeHeightHandler} />
-            <button className={styles.submitBtn}>
+            <textarea
+                ref={textArea}
+                className={styles.input}
+                name={'message'}
+                rows={1}
+                value={message.message}
+                onChange={onChange} />
+            <button className={styles.submitBtn} onClick={onSubmit}>
                 <span className={meterialIcon.meterialIcon} style={{letterSpacing: 0}}>arrow_upward</span>
             </button>
         </div>

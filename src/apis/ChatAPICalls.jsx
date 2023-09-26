@@ -46,13 +46,12 @@ export const registChatRooms = ({memberCode}) => {
 export const getChatRoomDetail = ({chatRoomCode}) => {
 
     const memberCode = JSON.parse(localStorage.getItem("authToken")).memberCode;
-    console.log(CHAT_SERVER)
+
     const requestURL = `${CHAT_SERVER}/chat/${chatRoomCode}/${memberCode}`;
     return async (dispatch, getState) => {
         const result = await axios.get(requestURL)
             .then(res => res)
             .catch(err => err);
-
 
         if(result?.status === 200) {
             dispatch({ type: GET_MESSAGE,  payload: result.data });

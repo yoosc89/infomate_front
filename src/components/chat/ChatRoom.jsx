@@ -8,28 +8,13 @@ import meterialIcon from '../../components/common/meterialIcon.module.css';
 import dayjs from "dayjs";
 import {ChatContext} from "./ChatComponent";
 import {NotResultData} from "../../pages/common/Error";
-import Socket from "../common/Socket";
 import {SocketContext} from "../../context/SocketContext";
 
 
 const ChatRoom = () => {
 
-    const dispatch = useDispatch();
-
     const {curState, setCurState} = useContext(ChatContext);
-
-    const data = useSelector(state => state.chatReducer[GET_MESSAGE]);
-    useEffect(() => {
-        dispatch(getChatRoomDetail({chatRoomCode: curState.chatRoomCode}));
-
-        return () =>
-            dispatch(dispatch => {
-                dispatch({type: GET_MESSAGE, payload: ''});
-        })
-    }, []);
-
-
-    if(!data) return <LoadingSpiner />;
+    console.log(curState)
 
     return (
         <div className={styles.chatRoomContainer}>
@@ -37,7 +22,7 @@ const ChatRoom = () => {
                 <Header chatRoomName={curState?.chatRoomName} />
             </div>
             <div>
-                <Body data={data} />
+                <Body chatRoomCode={curState?.chatRoomCode} />
             </div>
             <div>
                 <Input />
@@ -73,12 +58,38 @@ const Header = ({chatRoomName}) => {
     )
 }
 
-const Body = ({data}) => {
+const Body = ({chatRoomCode}) => {
+
+    const client = useContext(SocketContext);
+    const dispatch = useDispatch();
 
     const memberCode = JSON.parse(localStorage.getItem("authToken")).memberCode;
 
+    const data = useSelector(state => state.chatReducer[GET_MESSAGE]);
+
+    const endRef = useRef(null);
+
+    useEffect(() => {
+        if(!(data?.length > 0))
+            dispatch(getChatRoomDetail({chatRoomCode: chatRoomCode}))
+                .then(()=>{
+                    endRef.current.scrollIntoView({ behavior: 'smooth'});
+                });
+        return () =>
+            dispatch(dispatch => {
+                dispatch({type: GET_MESSAGE, payload: []});
+            })
+
+    }, []);
+
+    useEffect(()=>{
+        if(data?.length > 0)
+            endRef.current.scrollIntoView({ behavior: 'smooth'});
+    },[data])
+
+    if(!data) return <NotResultData />
+
     if(data.length === 0) return <NotResultData />
-    console.log(data)
 
     return (
         <div className={styles.bodyContainer}>
@@ -90,8 +101,7 @@ const Body = ({data}) => {
                     isMe={message.sender === memberCode}
                 />
             ))}
-            {/*<Message message={data[0].message} sender={data[0].message} createDate={data[0].createDate} isMe={false} />*/}
-            {/*<Message message={data[1].message} sender={data[1].message} createDate={data[1].createDate} isMe={true} />*/}
+            <div ref={endRef}></div>
         </div>
     )
 }
@@ -120,8 +130,6 @@ const Message = ({sender, message, createDate, isMe}) => {
 
 const Input = () => {
     const textArea = useRef();
-    const dispatch = useDispatch();
-    const getMessage = useSelector(state => state.chatReducer[GET_MESSAGE]);
 
     const {curState, setCurState} = useContext(ChatContext);
     const [message, setMessage] = useState({});
@@ -146,14 +154,10 @@ const Input = () => {
         message['chatRoomNo'] = receiver;
         message['createDate'] = dayjs().format('YYYY-MM-DDTHH:mm:ss');
 
-        client.publish({
+        client.current.publish({
             destination: `/pub/chat/${receiver}`,
             body: JSON.stringify(message)
         });
-
-        dispatch(dispatch => {
-            dispatch({type: GET_MESSAGE ,payload: [...getMessage, message] })
-        })
 
         setMessage({...message, message: ''});
 
